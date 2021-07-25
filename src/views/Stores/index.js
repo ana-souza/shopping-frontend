@@ -80,58 +80,7 @@ class Stores extends Component {
         
     }
 
-    getStore = (id) => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-          };
-          
-          fetch(`http://localhost:8080/store/${id}`, requestOptions)
-            .then(response => response.text())
-            .then(result => 
-                this.setState(
-                    {
-                        store: result
-                    }
-                ))
-            .catch(error => console.log('error', error));
-
-    }
-
-    getProducts = (id) => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-          };
-          
-          fetch("http://localhost:8080/store", requestOptions)
-            .then(response => response.text())
-            .then(result => 
-                this.setState(
-                    {
-                        stores: result
-                    }
-                ))
-            .catch(error => console.log('error', error));
-
-    }
-
-    getReccomendedProducts = () => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-          };
-          
-          fetch(`http://localhost:8080/product/recommendation`, requestOptions)
-            .then(response => response.text())
-            .then(result => 
-                this.setState(
-                    {
-                        recommendations: result
-                    }
-                ))
-            .catch(error => console.log('error', error));
-    }
+    
 
     sortByDepartment = () => {
         var storesByDepartment = this.state.stores;
@@ -142,7 +91,6 @@ class Stores extends Component {
             if (a.activity.label < b.activity.label) {
               return -1;
             }
-            // a must be equal to b
             return 0;
           });
 
@@ -161,7 +109,6 @@ class Stores extends Component {
             if (a.label < b.label) {
               return -1;
             }
-            // a must be equal to b
             return 0;
           });
 
@@ -178,93 +125,96 @@ class Stores extends Component {
        {showCart: true}
    );
 
-    addToCart = () => this.setState(
-        {productsOnCart: [{label: "produto XYZ"}]}
-    );
-
+    addToCart = (product) => {
+        let products = this.state.productsOnCart;
+        if (products.includes(product)) {
+            let index = products.indexOf(product);
+            products[index].quantity = products[index].quantity + 1;
+            
+        }
+        else products.push(product);
+        this.setState(
+            {
+                productsOnCart: products
+            }
+        )
+    }
    
     render () {
 
         return(
             <>
-                {/* <Header products={this.state.productsOnCart} /> */}
                 <div className="header">
                 
                     <Navbar bg="dark" variant="dark">
-                    <Container>
-                        <Navbar.Brand href="/">Voltar ao menu inicial</Navbar.Brand>
-                        <Navbar.Toggle />
-                        <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text>
-                        
-
-                    <div to="/cart" className="cart" onClick={this.handleShow}>
-                        <div >
-                        <strong>Meu Carrinho</strong>
-                        <span>{this.state.productsOnCart.length} itens</span>
-                        </div>
-                        <MdShoppingBasket size={36} color="#fff" />
-                    </div>
-                        </Navbar.Text>
-                        </Navbar.Collapse>
-                    </Container>
+                        <Container>
+                            <Navbar.Brand href="/">Voltar ao menu inicial</Navbar.Brand>
+                            <Navbar.Toggle />
+                            <Navbar.Collapse className="justify-content-end">
+                            <Navbar.Text>
+                            
+                                <div to="/cart" className="cart" onClick={this.handleShow}>
+                                    <div >
+                                    <strong>Meu Carrinho</strong>
+                                    <span>{this.state.productsOnCart.length} itens</span>
+                                    </div>
+                                    <MdShoppingBasket size={36} color="#fff" />
+                                </div>
+                            </Navbar.Text>
+                            </Navbar.Collapse>
+                        </Container>
                     </Navbar>
 
 
                 
                     <Modal show={this.state.showCart} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.state.productsOnCart.map((product, index) => 
-                            <div key={index}>{product.label}</div>
-                        )}
-                    </Modal.Body>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modal heading</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {this.state.productsOnCart.map((product, index) => 
+                                <div key={index}>{product.label}</div>
+                            )}
+                        </Modal.Body>
 
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
-                        Continue Comprando
-                    </Button>
-                    <Button variant="primary" onClick={this.handleClose}>
-                        Finalizar compra
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-                <div className="App">
-
-                <Container>
-                    <span>
-                    <h2> Lojas </h2>
-                    
-                    </span>
-                </Container>
-                
-                <div> 
-                    <button className="primary" onClick={this.sortByName}>Por nome</button>
-                    <button className="primary" onClick={this.sortByDepartment}>Por atividade</button>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleClose}>
+                                Continue Comprando
+                            </Button>
+                            <Button variant="primary" onClick={this.handleClose}>
+                                Finalizar compra
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
-                
-                
-                <Accordion className="container">
-                {this.state.stores.map((store, index) => 
-                
-                    <Accordion.Item eventKey={index} key={store.uri}>
-                        {/* <Accordion.Header>{store.label}</Accordion.Header> */}
 
-                        <Accordion.Header><span className="storeName">{store.label}</span> <span className="department">{store.activity.label}</span></Accordion.Header>
-                        <Accordion.Body>
-                        Produto X <button onClick={this.addToCart}>Adicionar ao carrinho</button>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                )}
-                </Accordion>
-                    
-                <Button>Recomendações de Produtos</Button>
-               
+                <div className="App">
+                    <h2> Lojas </h2>
+                    <div> 
+                        <button className="primary" onClick={this.sortByName}>Por nome</button>
+                        <button className="primary" onClick={this.sortByDepartment}>Por atividade</button>
+                    </div>
 
-            </div>
+                    <Accordion className="container">
+                        {this.state.stores.map((store, index) => 
+                        
+                            <Accordion.Item eventKey={index} key={store.uri}>
+
+                                <Accordion.Header>
+                                    <span className="storeName">{store.label}</span> <span className="department">{store.activity.label}</span>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                    <li>Produto X <Button variant="success" size="sm" >Adicionar ao carrinho</Button></li>
+                                    {this.state.products.map((product) => 
+                                    <li key={product.uri}>{product.label} <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >Adicionar ao carrinho</Button></li>)}
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        )}
+                    </Accordion>
+
+                    <Button>Recomendações de Produtos</Button>       
+
+                </div>
             </>
         )
     }
