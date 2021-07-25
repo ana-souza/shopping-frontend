@@ -125,6 +125,13 @@ class Stores extends Component {
        {showCart: true}
    );
 
+    increaseQty = (product) => {
+        
+    }
+    decreaseQty = (product) => {
+        
+    }
+
     addToCart = (product) => {
         let products = this.state.productsOnCart;
         if (products.includes(product)) {
@@ -169,11 +176,19 @@ class Stores extends Component {
                 
                     <Modal show={this.state.showCart} onHide={this.handleClose}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Modal heading</Modal.Title>
+                            <Modal.Title>Carrinho</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             {this.state.productsOnCart.map((product, index) => 
-                                <div key={index}>{product.label}</div>
+                                <div className="cartItem" key={index}>
+                                    {product.label} 
+                                    <span>
+                                        <Button variant="outline-danger" size="sm" onClick={ () =>{this.decreaseQty(product)}}>-</Button> 
+                                        <span>{product.quantity}</span> 
+                                        <Button variant="outline-success" size="sm" onClick={ () =>{this.increaseQty(product)}}>+</Button>
+                                    </span>
+                                    <strong>Preço: </strong> {product.price * product.quantity}
+                                </div>
                             )}
                         </Modal.Body>
 
