@@ -21,6 +21,11 @@ class MainPage extends Component {
                             Ir para mapa
                         </Link>
                     </Button>
+                    <Button variant="dark" size="lg">
+                        <Link to="/login">
+                            Login
+                        </Link>
+                    </Button>
                 
             </div>
                

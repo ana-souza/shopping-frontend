@@ -8,6 +8,7 @@ import {
 
 import Stores from './views/Stores';
 import MainPage from './views/MainPage';
+import Login from './views/Login';
 
 function App() {
 
@@ -19,6 +20,9 @@ function App() {
               <Stores />
           </Route>
 
+          <Route path="/login">
+              <Login />
+          </Route>
 
           <Route path="/">
               <MainPage />
