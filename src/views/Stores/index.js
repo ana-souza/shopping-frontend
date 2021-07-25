@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
-import Header from "./components/Header";
 import { Button, Modal, Navbar } from "react-bootstrap";
 import { MdShoppingBasket } from 'react-icons/md';
 
@@ -134,6 +133,44 @@ class Stores extends Component {
             .catch(error => console.log('error', error));
     }
 
+    sortByDepartment = () => {
+        var storesByDepartment = this.state.stores;
+        storesByDepartment.sort(function (a, b) {
+            if (a.activity.label > b.activity.label) {
+              return 1;
+            }
+            if (a.activity.label < b.activity.label) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+
+          this.setState({
+              stores: storesByDepartment
+          }
+          )
+    }
+
+    sortByName = () => {
+        var storesByName = this.state.stores;
+        storesByName.sort(function (a, b) {
+            if (a.label > b.label) {
+              return 1;
+            }
+            if (a.label < b.label) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+
+          this.setState({
+              stores: storesByName
+          }
+          )
+    }
+
     handleClose = () => this.setState(
         {showCart: false}
     );
@@ -205,8 +242,8 @@ class Stores extends Component {
                 </Container>
                 
                 <div> 
-                    <button className="primary">Por nome</button>
-                    <button className="primary">Por atividade</button>
+                    <button className="primary" onClick={this.sortByName}>Por nome</button>
+                    <button className="primary" onClick={this.sortByDepartment}>Por atividade</button>
                 </div>
                 
                 
