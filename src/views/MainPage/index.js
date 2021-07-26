@@ -12,6 +12,7 @@ class MainPage extends Component {
         super(props);
 
         this.state = {
+            consumerUri: "",
             productsOnCart: [],
             username: "",
             password: "",
@@ -19,6 +20,7 @@ class MainPage extends Component {
             showRecommendations: false,
             loggedIn: false,
             checkout: false,
+            checkoutStatus: "",
             stores: [
                 {
                   "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
@@ -212,10 +214,8 @@ class MainPage extends Component {
         if (!this.state.loggedIn) {
         return (
             <div className="Login">
-                    <h2>LOGIN</h2>
-                    <Form onSubmit={this.handleSubmit}>
-                        
-                    </Form>
+                    <h2>{this.state.checkoutStatus}</h2>
+                    
             </div>
         )
         }
@@ -243,12 +243,14 @@ class MainPage extends Component {
 
     getRecommendations = async () => {
 
+        var raw = JSON.stringify({"consumerUri":this.state.consumerUri});
+
         var requestOptions = {
             method: 'GET',
-            redirect: 'follow',
+            redirect: 'follow'
           };
-          
-          fetch(`http://localhost:8080/product/recommendation`, requestOptions)
+    
+          await fetch(`http://localhost:8080/product/recommendation?consumerUri=${encodeURIComponent(this.state.consumerUri)}`, requestOptions)
             .then(response => response.json())
             .then(result => 
                 this.setState(
@@ -256,7 +258,11 @@ class MainPage extends Component {
                         recommendations: result
                     }
                 ))
-            .catch(error => console.log('error', error));   
+            .catch(error => console.log('error', error)); 
+            
+            console.log("RECOMENDATIONS")
+            console.log(this.state.consumerUri)
+            console.log(this.state.recommendations)
     }
 
 
@@ -301,7 +307,9 @@ class MainPage extends Component {
     }
 
     handleCartClose = () => this.setState(
-        {showCart: false}
+        {showCart: false,
+        checkoutStatus: ""
+        }
     );
 
     handleCartShow = () => this.setState(
@@ -312,9 +320,11 @@ class MainPage extends Component {
         {showRecommendations: false}
     );
 
-    handleRecommendationsShow = () => this.setState(
+    handleRecommendationsShow = () => {
+        this.getRecommendations();
+        this.setState(
        {showRecommendations: true}
-    );
+    );}
 
     closeRecOpenCart = () => {
         this.setState(
@@ -389,6 +399,7 @@ class MainPage extends Component {
        
         console.log(this.state);
         var statusCode;
+        var consumer;
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -402,16 +413,19 @@ class MainPage extends Component {
         };
 
         await fetch("http://localhost:8080/login", requestOptions)
-        .then(response => response.json())
-        .then(result => statusCode = result.status)
+        .then(response => response.text())
+        .then(result => consumer = result)
         .catch(error => console.log('error', error));
 
-        if (!statusCode) {
+        if (consumer[0] === 'h') {
             this.setState({
                 loggedIn: true,
-                checkout: true
+                checkout: true,
+                consumerUri: consumer
             })
         }
+
+        console.log(this.state)
 
       }
       
@@ -436,10 +450,40 @@ class MainPage extends Component {
         )
     }
 
-    buy = () => {
+    buy =  () => {
         this.setState({
             checkout: true
         })
+
+        this.state.productsOnCart.forEach(
+            product => {
+                var status;
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify({"consumerEmail":this.state.username,"price":product.price, "productLabel":product.label, "quantity":product.qtyOnCart, "uri": product.uri});
+
+                var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+                };
+
+                 fetch("http://localhost:8080/order", requestOptions)
+                .then(response => response.json())
+                .then(result => status = result.status)
+                .catch(error => console.log('error', error));
+
+                if (status!==500){
+                    this.setState({
+                        checkoutStatus : "Compra concluída com sucesso"
+                    })
+                }
+
+            }
+        )
+
     }
 
     handleClickRiachuelo = () => {
@@ -529,6 +573,8 @@ class MainPage extends Component {
                             <Button variant="primary" onClick={this.buy}>
                                 Finalizar compra
                             </Button>
+
+                            <h2>{this.state.checkoutStatus}</h2>
                             
                         </Modal.Footer>
                         {this.state.checkout? this.renderLoginForm() : this.renderCheckout()}
