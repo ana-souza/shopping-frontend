@@ -204,6 +204,20 @@ class Stores extends Component {
         }
     }
 
+    renderCheckout() {
+
+        if (!this.state.loggedIn) {
+        return (
+            <div className="Login">
+                    <h2>LOGIN</h2>
+                    <Form onSubmit={this.handleSubmit}>
+                        
+                    </Form>
+            </div>
+        )
+        }
+    }
+
      renderProductsFromStore (store){
 
         let stores = this.state.stores;
@@ -363,10 +377,37 @@ class Stores extends Component {
         return this.state.username.length > 0 && this.state.password.length > 0;
       }
     
-       handleSubmit = (event) => {
+       handleSubmit = async (event) => {
         event.preventDefault();
        
+        console.log(this.state);
+        var statusCode;
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({"email":this.state.username,"password":this.state.password});
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        await fetch("http://localhost:8080/login", requestOptions)
+        .then(response => response.json())
+        .then(result => statusCode = result.status)
+        .catch(error => console.log('error', error));
+
+        if (!statusCode) {
+            this.setState({
+                loggedIn: true,
+                checkout: true
+            })
+        }
+
       }
+      
 
 
     addToCart = (product) => {
@@ -449,7 +490,7 @@ class Stores extends Component {
                             </Button>
                             
                         </Modal.Footer>
-                        {this.state.checkout? this.renderLoginForm() : ""}
+                        {this.state.checkout? this.renderLoginForm() : this.renderCheckout()}
                     </Modal>
                 </div>
 
