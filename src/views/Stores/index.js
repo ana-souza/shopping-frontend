@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
-import { Button, Modal, Navbar } from "react-bootstrap";
+import { Button, Modal, Navbar, Form } from "react-bootstrap";
 import { MdShoppingBasket } from 'react-icons/md';
-import { FaTrash, FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import Login from '../Login/index';
 
 
 class Stores extends Component {
@@ -13,8 +14,12 @@ class Stores extends Component {
 
         this.state = {
             productsOnCart: [],
+            username: "",
+            password: "",
             showCart: false,
             showRecommendations: false,
+            loggedIn: false,
+            checkout: false,
             stores: [
                 {
                   "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
@@ -109,13 +114,8 @@ class Stores extends Component {
                   ]
                 }
               ],
-            store: {
-                
-              },
-           
-            recommendations: [
-                
-              ]
+            
+            recommendations: []
         }
     }
 
@@ -169,6 +169,39 @@ class Stores extends Component {
             stores: storesWithProducts
         })
             
+    }
+
+    renderLoginForm() {
+
+        if (!this.state.loggedIn) {
+        return (
+            <div className="Login">
+                    <h2>LOGIN</h2>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group size="lg" controlId="username">
+                        <Form.Label>Usuário</Form.Label>
+                        <Form.Control
+                            autoFocus
+                            type="username"
+                            value={this.state.username}
+                            onChange={(e) => this.setUsername(e.target.value)}
+                        />
+                        </Form.Group>
+                        <Form.Group size="lg" controlId="password">
+                        <Form.Label>Senha</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={this.state.password}
+                            onChange={(e) => this.setPassword(e.target.value)}
+                        />
+                        </Form.Group>
+                        <Button block size="lg" type="submit" disabled={!this.validateForm()}>
+                        Login
+                        </Button>
+                    </Form>
+            </div>
+        )
+        }
     }
 
      renderProductsFromStore (store){
@@ -316,6 +349,26 @@ class Stores extends Component {
             }
         )
     }
+
+    setUsername(username) {
+        this.setState({username: username})
+      }
+      
+      setPassword(password) {
+        this.setState({password: password})
+      }
+      
+
+       validateForm() {
+        return this.state.username.length > 0 && this.state.password.length > 0;
+      }
+    
+       handleSubmit = (event) => {
+        event.preventDefault();
+       
+      }
+
+
     addToCart = (product) => {
         
         let products = this.state.productsOnCart;
@@ -333,6 +386,12 @@ class Stores extends Component {
                 productsOnCart: products
             }
         )
+    }
+
+    buy = () => {
+        this.setState({
+            checkout: true
+        })
     }
 
     
@@ -385,10 +444,12 @@ class Stores extends Component {
                             <Button variant="secondary" onClick={this.handleCartClose}>
                                 Continue Comprando
                             </Button>
-                            <Button variant="primary" onClick={this.handleCartClose}>
+                            <Button variant="primary" onClick={this.buy}>
                                 Finalizar compra
                             </Button>
+                            
                         </Modal.Footer>
+                        {this.state.checkout? this.renderLoginForm() : ""}
                     </Modal>
                 </div>
 
