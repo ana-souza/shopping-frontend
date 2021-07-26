@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Button} from "react-bootstrap";
+import { Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 class MainPage extends Component {

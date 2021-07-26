@@ -3,6 +3,8 @@ import { Container } from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
 import { Button, Modal, Navbar } from "react-bootstrap";
 import { MdShoppingBasket } from 'react-icons/md';
+import { FaTrash, FaTrashAlt } from 'react-icons/fa';
+
 
 class Stores extends Component {
 
@@ -12,53 +14,113 @@ class Stores extends Component {
         this.state = {
             productsOnCart: [],
             showCart: false,
-            stores: [],
-            store: {
-                "activity": {
-                  "label": "string",
-                  "uri": "string"
-                },
-                "label": "string",
-                "locationURI": "string",
-                "productList": {
-                  "items": [
-                    {
-                      "color": "string",
-                      "foundIn": "string",
-                      "label": "string",
-                      "price": 0,
-                      "quantity": 0,
-                      "uri": "string"
-                    }
+            showRecommendations: false,
+            stores: [
+                {
+                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
+                  "activity": {
+                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/departamento",
+                    "label": "Departamento"
+                  },
+                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas/location",
+                  "label": "Americanas",
+                  "products": [
+                    {"uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas/products/food/chocolate",
+                    "label": "Chocolate",
+                    "color": null,
+                    "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
+                    "price": 5.0,
+                    "quantity": 40
+                  }
                   ]
                 },
-                "uri": "string"
-              },
-            products: [
                 {
-                  "color": "string",
-                  "foundIn": "string",
-                  "label": "string",
-                  "price": 0,
-                  "quantity": 0,
-                  "uri": "string"
+                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/cea",
+                  "activity": {
+                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/vestuario",
+                    "label": "Vestuário"
+                  },
+                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/cea/location",
+                  "label": "C&A",
+                  "products" : []
+                },
+                {
+                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
+                  "activity": {
+                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/brinquedo",
+                    "label": "Brinquedos"
+                  },
+                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy/location",
+                  "label": "RiHappy",
+                  "products": [{
+                    "storeUri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
+                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy/products/toy/hot-wheels",
+                    "label": "Hot Wheels",
+                    "color": null,
+                    "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
+                    "price": 6.99,
+                    "quantity": 50
+                  }]
+                },
+                {
+                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
+                  "activity": {
+                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/vestuario",
+                    "label": "Vestuário"
+                  },
+                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/location",
+                  "label": "Riachuelo",
+                  "products": [
+                    {
+                        "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/products/shirts/ocean-blue",
+                        "label": "Camiseta Ocean Blue",
+                        "color": "Azul-oceano",
+                        "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
+                        "price": 35.0,
+                        "quantity": 10
+                    },
+                    {
+                        "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/products/pants/simple-jeans",
+                        "label": "Calça Jeans Simples",
+                        "color": "Azul",
+                        "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
+                        "price": 55.5,
+                        "quantity": 3
+                    }
+                ]
+                },
+                {
+                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva",
+                  "activity": {
+                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/livraria",
+                    "label": "Livraria"
+                  },
+                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva/location",
+                  "label": "Saraiva",
+                  "products": [
+                    {
+                      "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva/products/book/steve-jobs-by-walter-isaacson",
+                      "label": "Steve Jobs, por Walter Isaacson",
+                      "color": null,
+                      "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva",
+                      "price": 61.9,
+                      "quantity": 2
+                    }
+                  ]
                 }
               ],
+            store: {
+                
+              },
+           
             recommendations: [
-                {
-                  "color": "string",
-                  "foundIn": "string",
-                  "label": "string",
-                  "price": 0,
-                  "quantity": 0,
-                  "uri": "string"
-                }
+                
               ]
         }
     }
 
     componentDidMount() {
-        this.getStores();
+         this.getStores();
       }
 
     getStores = async () => {
@@ -68,19 +130,85 @@ class Stores extends Component {
             redirect: 'follow',
           };
           
-          fetch(`http://localhost:8080/store`, requestOptions)
+          await fetch(`http://localhost:8080/store`, requestOptions)
+            .then(response => response.json())
+            // .then(result => 
+            //     this.setState(
+            //         {
+            //             stores: result
+            //         }
+            //     ))
+            .catch(error => console.log('error', error));  
+            
+        //this.state.stores.forEach( store => this.getProductsFromStore(store));
+    }
+
+    getProductsFromStore = async(store) => {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+          };
+          
+          fetch(`http://localhost:8080/product?storeUri=${encodeURIComponent(store.uri)}`, requestOptions)
+            .then(response => response.json())
+            .then(result => 
+                this.pushProductsIntoStore(result, store))
+            .catch(error => console.log('error', error));
+
+    }
+
+    pushProductsIntoStore(products, store){
+        
+        if (products.error) products = [{}];
+        let storesWithProducts = this.state.stores;
+        let index = storesWithProducts.indexOf(store);
+        storesWithProducts[index].products = products;
+
+        this.setState({
+            stores: storesWithProducts
+        })
+            
+    }
+
+     renderProductsFromStore (store){
+
+        let stores = this.state.stores;
+        let index = stores.indexOf(store);
+        console.log(stores)
+
+        return (
+            stores[index].products.map((product) => 
+            <div key={product.uri}>
+                <strong>{product.label} </strong>
+                <span>Preço: ${product.price} </span>
+                <span>Quantidade em estoque: {product.quantity} </span>
+                <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >
+                    Adicionar ao carrinho
+                </Button>
+            </div>)
+        )
+       
+    }
+
+    getRecommendations = async () => {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+          };
+          
+          fetch(`http://localhost:8080/product/recommendation`, requestOptions)
             .then(response => response.json())
             .then(result => 
                 this.setState(
                     {
-                        stores: result
+                        recommendations: result
                     }
                 ))
-            .catch(error => console.log('error', error));
-        
+            .catch(error => console.log('error', error));   
     }
 
-    
 
     sortByDepartment = () => {
         var storesByDepartment = this.state.stores;
@@ -118,34 +246,96 @@ class Stores extends Component {
           )
     }
 
-    handleClose = () => this.setState(
+    handleCartClose = () => this.setState(
         {showCart: false}
     );
-    handleShow = () => this.setState(
+
+    handleCartShow = () => this.setState(
        {showCart: true}
-   );
+    );
+
+    handleRecommendationsClose = () => this.setState(
+        {showRecommendations: false}
+    );
+
+    handleRecommendationsShow = () => this.setState(
+       {showRecommendations: true}
+    );
+
+    closeRecOpenCart = () => {
+        this.setState(
+            {
+                showRecommendations: false,
+                showCart: true
+            }
+        )
+    }
 
     increaseQty = (product) => {
-        
-    }
-    decreaseQty = (product) => {
-        
-    }
-
-    addToCart = (product) => {
         let products = this.state.productsOnCart;
-        if (products.includes(product)) {
-            let index = products.indexOf(product);
-            products[index].quantity = products[index].quantity + 1;
-            
+        let index = products.indexOf(product);
+
+        if (products[index].qtyOnCart === products[index].quantity) {
+            return;
         }
-        else products.push(product);
+
+        products[index].qtyOnCart = products[index].qtyOnCart + 1;
+
         this.setState(
             {
                 productsOnCart: products
             }
         )
     }
+    decreaseQty = (product) => {
+        let products = this.state.productsOnCart;
+        let index = products.indexOf(product);
+
+        if (products[index].qtyOnCart === 1) {
+            return;
+        }
+
+        products[index].qtyOnCart = products[index].qtyOnCart - 1;
+
+        this.setState(
+            {
+                productsOnCart: products
+            }
+        )
+    }
+
+    remove = (product) => {
+        let products = this.state.productsOnCart;
+        let index = products.indexOf(product);
+
+        delete products[index];
+
+        this.setState(
+            {
+                productsOnCart: products
+            }
+        )
+    }
+    addToCart = (product) => {
+        
+        let products = this.state.productsOnCart;
+        if (products.includes(product)) {
+            let index = products.indexOf(product);
+            products[index].qtyOnCart = products[index].qtyOnCart + 1;
+            
+        }
+        else {
+            product.qtyOnCart = 1;
+            products.push(product);
+        } 
+        this.setState(
+            {
+                productsOnCart: products
+            }
+        )
+    }
+
+    
    
     render () {
 
@@ -160,7 +350,7 @@ class Stores extends Component {
                             <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>
                             
-                                <div to="/cart" className="cart" onClick={this.handleShow}>
+                                <div to="/cart" className="cart" onClick={this.handleCartShow}>
                                     <div >
                                     <strong>Meu Carrinho</strong>
                                     <span>{this.state.productsOnCart.length} itens</span>
@@ -172,31 +362,30 @@ class Stores extends Component {
                         </Container>
                     </Navbar>
 
-
-                
-                    <Modal show={this.state.showCart} onHide={this.handleClose}>
+                    <Modal show={this.state.showCart} onHide={this.handleCartClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Carrinho</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             {this.state.productsOnCart.map((product, index) => 
                                 <div className="cartItem" key={index}>
-                                    {product.label} 
+                                    <strong>{product.label} </strong>
                                     <span>
                                         <Button variant="outline-danger" size="sm" onClick={ () =>{this.decreaseQty(product)}}>-</Button> 
-                                        <span>{product.quantity}</span> 
+                                        <span> &nbsp; {product.qtyOnCart} &nbsp; </span> 
                                         <Button variant="outline-success" size="sm" onClick={ () =>{this.increaseQty(product)}}>+</Button>
                                     </span>
-                                    <strong>Preço: </strong> {product.price * product.quantity}
+                                    <span>Preço:  ${product.price * product.qtyOnCart}</span>
+                                    <FaTrashAlt size={26} color="brown" onClick={ () =>{this.remove(product)}}/>
                                 </div>
                             )}
                         </Modal.Body>
 
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={this.handleClose}>
+                            <Button variant="secondary" onClick={this.handleCartClose}>
                                 Continue Comprando
                             </Button>
-                            <Button variant="primary" onClick={this.handleClose}>
+                            <Button variant="primary" onClick={this.handleCartClose}>
                                 Finalizar compra
                             </Button>
                         </Modal.Footer>
@@ -219,15 +408,50 @@ class Stores extends Component {
                                     <span className="storeName">{store.label}</span> <span className="department">{store.activity.label}</span>
                                 </Accordion.Header>
                                 <Accordion.Body>
-                                    <li>Produto X <Button variant="success" size="sm" >Adicionar ao carrinho</Button></li>
-                                    {this.state.products.map((product) => 
-                                    <li key={product.uri}>{product.label} <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >Adicionar ao carrinho</Button></li>)}
+                                    
+                                    {/*this.renderProductsFromStore(store)*/}
+
+                                    {store.products.map((product) => 
+                                        <div key={product.uri}>
+                                            <strong>{product.label} </strong>
+                                            <span>Preço: ${product.price} </span>
+                                            <span>Quantidade em estoque: {product.quantity} </span>
+                                            <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >
+                                                Adicionar ao carrinho
+                                            </Button>
+                                        </div>)}
+                                    
                                 </Accordion.Body>
                             </Accordion.Item>
                         )}
                     </Accordion>
 
-                    <Button>Recomendações de Produtos</Button>       
+                    <Button onClick={this.handleRecommendationsShow}>Recomendações de Produtos</Button>      
+
+                    <Modal show={this.state.showRecommendations} onHide={this.handleRecommendationsClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Recomendação de Produtos</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {this.state.recommendations.map((product, index) => 
+                                <div className="cartItem" key={index}>
+                                    <strong>{product.label} </strong>
+                                    <span>Preço:  ${product.price * product.quantity}</span>
+                                    <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}}>Adicionar ao carrinho</Button>
+                                </div>
+                            )}
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            
+                            <Button variant="secondary" onClick={this.handleRecommendationsClose}>
+                                Fechar
+                            </Button>
+                            <Button variant="primary" onClick={this.closeRecOpenCart}>
+                                Abrir Carrinho
+                            </Button>
+                        </Modal.Footer>
+                    </Modal> 
 
                 </div>
             </>

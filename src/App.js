@@ -17,7 +17,7 @@ function App() {
     <Router>
         <Switch>
           <Route path="/stores">
-              <Stores />
+              <Stores teste={true}/>
           </Route>
 
           <Route path="/login">
