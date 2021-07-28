@@ -461,26 +461,27 @@ class MainPage extends Component {
                 var myHeaders = new Headers();
                 myHeaders.append("Content-Type", "application/json");
 
-                var raw = JSON.stringify({"consumerEmail":this.state.username,"price":product.price, "productLabel":product.label, "quantity":product.qtyOnCart, "uri": product.uri});
+                if(this.state.username){
+                    var raw = JSON.stringify({"consumerEmail":this.state.username,"price":(product.price*product.qtyOnCart), "productLabel":product.label, "quantity":product.qtyOnCart});
 
-                var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-                };
-
-                 fetch("http://localhost:8080/order", requestOptions)
-                .then(response => response.json())
-                .then(result => status = result.status)
-                .catch(error => console.log('error', error));
-
-                if (status!==500){
-                    this.setState({
-                        checkoutStatus : "Compra concluída com sucesso"
-                    })
+                    var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                    };
+    
+                     fetch("http://localhost:8080/order", requestOptions)
+                    .then(response => response.json())
+                    .then(result => status = result.status)
+                    .catch(error => console.log('error', error));
+    
+                    if (status!==500){
+                        this.setState({
+                            checkoutStatus : "Compra concluída com sucesso"
+                        })
+                    }    
                 }
-
             }
         )
 
