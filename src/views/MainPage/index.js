@@ -243,14 +243,14 @@ class MainPage extends Component {
 
     getRecommendations = async () => {
 
-        var raw = JSON.stringify({"consumerUri":this.state.username});
+        var raw = JSON.stringify({"consumerEmail":this.state.username});
 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
           };
     
-          await fetch(`http://localhost:8080/product/recommendation?consumerUri=${this.state.username}`, requestOptions)
+          await fetch(`http://localhost:8080/product/recommendation?consumerEmail=${this.state.username}`, requestOptions)
             .then(response => response.json())
             .then(result => 
                 this.setState(
