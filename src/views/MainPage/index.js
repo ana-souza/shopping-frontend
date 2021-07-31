@@ -21,100 +21,103 @@ class MainPage extends Component {
             loggedIn: false,
             checkout: false,
             checkoutStatus: "",
-            stores: [
-                {
-                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
-                  "activity": {
-                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/departamento",
-                    "label": "Departamento"
-                  },
-                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas/location",
-                  "label": "Americanas",
-                  "products": [
-                    {"uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas/products/food/chocolate",
-                    "label": "Chocolate",
-                    "color": null,
-                    "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
-                    "price": 5.0,
-                    "quantity": 40
-                  }
-                  ]
-                },
-                {
-                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/cea",
-                  "activity": {
-                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/vestuario",
-                    "label": "Vestuário"
-                  },
-                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/cea/location",
-                  "label": "C&A",
-                  "products" : []
-                },
-                {
-                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
-                  "activity": {
-                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/brinquedo",
-                    "label": "Brinquedos"
-                  },
-                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy/location",
-                  "label": "RiHappy",
-                  "products": [{
-                    "storeUri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
-                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy/products/toy/hot-wheels",
-                    "label": "Hot Wheels",
-                    "color": null,
-                    "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
-                    "price": 6.99,
-                    "quantity": 50
-                  }]
-                },
-                {
-                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
-                  "activity": {
-                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/vestuario",
-                    "label": "Vestuário"
-                  },
-                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/location",
-                  "label": "Riachuelo",
-                  "products": [
-                    {
-                        "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/products/shirts/ocean-blue",
-                        "label": "Camiseta Ocean Blue",
-                        "color": "Azul-oceano",
-                        "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
-                        "price": 35.0,
-                        "quantity": 10
-                    },
-                    {
-                        "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/products/pants/simple-jeans",
-                        "label": "Calça Jeans Simples",
-                        "color": "Azul",
-                        "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
-                        "price": 55.5,
-                        "quantity": 3
-                    }
-                ]
-                },
-                {
-                  "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva",
-                  "activity": {
-                    "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/livraria",
-                    "label": "Livraria"
-                  },
-                  "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva/location",
-                  "label": "Saraiva",
-                  "products": [
-                    {
-                      "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva/products/book/steve-jobs-by-walter-isaacson",
-                      "label": "Steve Jobs, por Walter Isaacson",
-                      "color": null,
-                      "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva",
-                      "price": 61.9,
-                      "quantity": 2
-                    }
-                  ]
-                }
-              ],
+            // stores: [
+            //     {
+            //       "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
+            //       "activity": {
+            //         "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/departamento",
+            //         "label": "Departamento"
+            //       },
+            //       "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas/location",
+            //       "label": "Americanas",
+            //       "products": [
+            //     //     {"uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas/products/food/chocolate",
+            //     //     "label": "Chocolate",
+            //     //     "color": null,
+            //     //     "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/americanas",
+            //     //     "price": 5.0,
+            //     //     "quantity": 40
+            //     //   }
+            //       ]
+            //     },
+            //     {
+            //       "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/cea",
+            //       "activity": {
+            //         "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/vestuario",
+            //         "label": "Vestuário"
+            //       },
+            //       "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/cea/location",
+            //       "label": "C&A",
+            //       "products" : []
+            //     },
+            //     {
+            //       "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
+            //       "activity": {
+            //         "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/brinquedo",
+            //         "label": "Brinquedos"
+            //       },
+            //       "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy/location",
+            //       "label": "RiHappy",
+            //       "products": [
+            //     //       {
+            //     //     "storeUri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
+            //     //     "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy/products/toy/hot-wheels",
+            //     //     "label": "Hot Wheels",
+            //     //     "color": null,
+            //     //     "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/rihappy",
+            //     //     "price": 6.99,
+            //     //     "quantity": 50
+            //     //   }
+            //     ]
+            //     },
+            //     {
+            //       "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
+            //       "activity": {
+            //         "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/vestuario",
+            //         "label": "Vestuário"
+            //       },
+            //       "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/location",
+            //       "label": "Riachuelo",
+            //       "products": [
+            //         // {
+            //         //     "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/products/shirts/ocean-blue",
+            //         //     "label": "Camiseta Ocean Blue",
+            //         //     "color": "Azul-oceano",
+            //         //     "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
+            //         //     "price": 35.0,
+            //         //     "quantity": 10
+            //         // },
+            //         // {
+            //         //     "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo/products/pants/simple-jeans",
+            //         //     "label": "Calça Jeans Simples",
+            //         //     "color": "Azul",
+            //         //     "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/riachuelo",
+            //         //     "price": 55.5,
+            //         //     "quantity": 3
+            //         // }
+            //     ]
+            //     },
+            //     {
+            //       "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva",
+            //       "activity": {
+            //         "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/activities/livraria",
+            //         "label": "Livraria"
+            //       },
+            //       "locationURI": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva/location",
+            //       "label": "Saraiva",
+            //       "products": [
+            //         // {
+            //         //   "uri": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva/products/book/steve-jobs-by-walter-isaacson",
+            //         //   "label": "Steve Jobs, por Walter Isaacson",
+            //         //   "color": null,
+            //         //   "foundIn": "http://www.semanticweb.org/eachusp/ontologies/2021/5/ep-wsemantica#/stores/saraiva",
+            //         //   "price": 61.9,
+            //         //   "quantity": 2
+            //         // }
+            //       ]
+            //     }
+            //   ],
+            stores: [],
             recommendations: [],
             selectedStore: '',
             entrada1: '',
@@ -125,53 +128,64 @@ class MainPage extends Component {
     }
 
     componentDidMount() {
-         this.getStores();
-      }
+        this.getStores();
+    }
 
-    getStores = async () => {
+    getStores = () => {
 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow',
           };
           
-          await fetch(`http://localhost:8080/store`, requestOptions)
+          fetch(`http://localhost:8080/store`, requestOptions)
             .then(response => response.json())
-            // .then(result => 
-            //     this.setState(
-            //         {
-            //             stores: result
-            //         }
-            //     ))
+            .then(result => {
+                //result.forEach( store => this.getProductsFromStore(store));
+                this.setState(
+                    {
+                        stores: result
+                    }
+                )
+                this.state.stores.forEach( store => this.getProductsFromStore(store));
+            }  ) 
             .catch(error => console.log('error', error));  
             
-        //this.state.stores.forEach( store => this.getProductsFromStore(store));
+        
     }
 
     getProductsFromStore = async(store) => {
 
+        console.log("entrou")
+        
         var requestOptions = {
             method: 'GET',
             redirect: 'follow',
           };
           
-          fetch(`http://localhost:8080/product?storeUri=${encodeURIComponent(store.uri)}`, requestOptions)
+          await fetch(`http://localhost:8080/product?storeUri=${encodeURIComponent(store.uri)}`, requestOptions)
             .then(response => response.json())
-            .then(result => 
-                this.pushProductsIntoStore(result, store))
+            .then(result => {
+                console.log(result);
+                this.pushProductsIntoStore(result, store);
+                
+            }
+                )
             .catch(error => console.log('error', error));
+        }
 
-    }
+    
 
     pushProductsIntoStore(products, store){
         
         if (products.error) products = [{}];
-        let storesWithProducts = this.state.stores;
-        let index = storesWithProducts.indexOf(store);
-        storesWithProducts[index].products = products;
-
+        let currentStores = this.state.stores;
+        let index = currentStores.indexOf(store);
+        currentStores[index].products = products;
+        // console.log("currentstores: ")
+        // console.log(currentStores);
         this.setState({
-            stores: storesWithProducts
+            stores: currentStores
         })
             
     }
@@ -221,11 +235,14 @@ class MainPage extends Component {
         }
     }
 
-     renderProductsFromStore (store){
+    async renderProductsFromStore (store) {
 
+        console.log("store:")
+        console.log(store)
+        //await this.getProductsFromStore(store);
+        
         let stores = this.state.stores;
         let index = stores.indexOf(store);
-        console.log(stores)
 
         return (
             stores[index].products.map((product) => 
@@ -236,7 +253,8 @@ class MainPage extends Component {
                 <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >
                     Adicionar ao carrinho
                 </Button>
-            </div>)
+            </div>
+            )
         )
        
     }
@@ -383,20 +401,20 @@ class MainPage extends Component {
 
     setUsername(username) {
         this.setState({username: username})
-      }
+    }
       
-      setPassword(password) {
-        this.setState({password: password})
-      }
-      
-
-       validateForm() {
-        return this.state.username.length > 0 && this.state.password.length > 0;
-      }
+    setPassword(password) {
+    this.setState({password: password})
+    }
     
-       handleSubmit = async (event) => {
+
+    validateForm() {
+    return this.state.username.length > 0 && this.state.password.length > 0;
+    }
+    
+    handleSubmit = async (event) => {
         event.preventDefault();
-       
+        
         console.log(this.state);
         var statusCode;
         var consumer;
@@ -423,14 +441,12 @@ class MainPage extends Component {
                 checkout: true,
                 consumerUri: consumer
             })
-        }
+    }
 
-        console.log(this.state)
+    console.log(this.state)
 
-      }
+    }
       
-
-
     addToCart = (product) => {
         
         let products = this.state.productsOnCart;
@@ -603,7 +619,7 @@ class MainPage extends Component {
                                     
                                     {/*this.renderProductsFromStore(store)*/}
 
-                                    {store.products.map((product) => 
+                                    {store.products?.map((product) => 
                                         <div key={product.uri}>
                                             <strong>{product.label} </strong>
                                             <span>Preço: ${product.price} </span>
@@ -611,7 +627,9 @@ class MainPage extends Component {
                                             <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >
                                                 Adicionar ao carrinho
                                             </Button>
-                                        </div>)}
+                                        </div>)} 
+
+                                        {/* {console.log(store)} */}
                                     
                                 </Accordion.Body>
                             </Accordion.Item>
