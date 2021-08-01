@@ -18,6 +18,7 @@ class MainPage extends Component {
             password: "",
             showCart: false,
             showRecommendations: false,
+            showLoginForm: false,
             loggedIn: false,
             checkout: false,
             checkoutStatus: "",
@@ -27,7 +28,8 @@ class MainPage extends Component {
             entrada1: '',
             entrada2: '',
             checkedByName: true,
-            checkedByDepartament: false
+            checkedByDepartament: false,
+             
         }
     }
 
@@ -96,7 +98,6 @@ class MainPage extends Component {
         if (!this.state.loggedIn) {
         return (
             <div className="Login">
-                    <h2>LOGIN</h2>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group size="lg" controlId="username">
                         <Form.Label>Usuário</Form.Label>
@@ -221,6 +222,15 @@ class MainPage extends Component {
           }
           )
     }
+    handleLoginClose = () => this.setState(
+        {
+        showLoginForm: false
+        }
+    );
+
+    handleLoginShow = () => this.setState(
+       {showLoginForm: true}
+    );
 
     handleCartClose = () => this.setState(
         {showCart: false,
@@ -337,11 +347,12 @@ class MainPage extends Component {
             this.setState({
                 loggedIn: true,
                 checkout: true,
-                consumerUri: consumer
+                consumerUri: consumer,
+                showLoginForm: false
             })
-    }
+        }
 
-    console.log(this.state)
+    
 
     }
       
@@ -445,7 +456,7 @@ class MainPage extends Component {
                 
                     <Navbar bg="dark" variant="dark">
                         <Container>
-                            <Navbar.Brand href="/login">Login</Navbar.Brand>
+                            <Navbar.Brand onClick={this.handleLoginShow}>{this.state.consumerUri ? "Olá novamente!" : "Login"}</Navbar.Brand>
                             <Navbar.Toggle />
                             <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>
@@ -530,31 +541,31 @@ class MainPage extends Component {
                         )}
                     </Accordion>
                     <div className="container" style={{marginBottom: 30}}>
-                    <h3 style={{margin: 30}}>Mapa do shopping</h3>
-                <Row>
-                    <Col>
-                        <img src="mapa.jpg" usemap="#image-map" />
+                        <h3 style={{margin: 30}}>Mapa do shopping</h3>
+                        <Row>
+                            <Col>
+                                <img src="mapa.jpg" usemap="#image-map" />
 
-                        <map name="image-map">
-                            <area alt="Riachuelo" title="Riachuelo" onClick={this.handleClickRiachuelo} coords="325,101,390,101,391,26,284,27,284,106,315,107" shape="poly" />
-                            <area alt="RiHappy" title="RiHappy" onClick={this.handleClickRiHappy} coords="393,26,393,102,424,126,463,125,464,64,418,26" shape="poly" />
-                            <area alt="Americanas" title="Americanas" onClick={this.handleClickAmericanas} coords="195,163,192,231,267,232,267,132,235,133" shape="poly" />
-                            <area alt="C&amp;A" title="C&amp;A" onClick={this.handleClickCA} coords="270,134,293,133,323,157,379,157,380,232,269,232" shape="poly" />
-                            <area alt="Saraiva" title="Saraiva" onClick={this.handleClickSaraiva} coords="381,156,407,156,414,152,486,152,486,232,382,232" shape="poly" />
-                        </map>
-                    </Col>
-                    <Col>
-                        
-                        <p>Clique em uma loja para obter sua rota</p>
-                        <div name="store">
-                        <h4>{this.state.selectedStore}</h4>
-                        <p>{this.state.entrada1}</p>
-                        <p>{this.state.entrada2}</p>
-                        </div>
-                    </Col>
-                </Row>
-                <Button style={{marginTop: 30}} onClick={this.handleRecommendationsShow}>Recomendações de Produtos</Button>   
-                </div>
+                                <map name="image-map">
+                                    <area alt="Riachuelo" title="Riachuelo" onClick={this.handleClickRiachuelo} coords="325,101,390,101,391,26,284,27,284,106,315,107" shape="poly" />
+                                    <area alt="RiHappy" title="RiHappy" onClick={this.handleClickRiHappy} coords="393,26,393,102,424,126,463,125,464,64,418,26" shape="poly" />
+                                    <area alt="Americanas" title="Americanas" onClick={this.handleClickAmericanas} coords="195,163,192,231,267,232,267,132,235,133" shape="poly" />
+                                    <area alt="C&amp;A" title="C&amp;A" onClick={this.handleClickCA} coords="270,134,293,133,323,157,379,157,380,232,269,232" shape="poly" />
+                                    <area alt="Saraiva" title="Saraiva" onClick={this.handleClickSaraiva} coords="381,156,407,156,414,152,486,152,486,232,382,232" shape="poly" />
+                                </map>
+                            </Col>
+                            <Col>
+                                
+                                <p>Clique em uma loja para obter sua rota</p>
+                                <div name="store">
+                                <h4>{this.state.selectedStore}</h4>
+                                <p>{this.state.entrada1}</p>
+                                <p>{this.state.entrada2}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Button style={{marginTop: 30}} onClick={this.handleRecommendationsShow}>Recomendações de Produtos</Button>   
+                    </div>
 
                     <Modal show={this.state.showRecommendations} onHide={this.handleRecommendationsClose}>
                         <Modal.Header closeButton>
@@ -564,7 +575,7 @@ class MainPage extends Component {
                             {this.state.recommendations.map((product, index) => 
                                 <div className="cartItem" key={index}>
                                     <strong>{product.label} </strong>
-                                    <span>Preço:  ${product.price * product.quantity}</span>
+                                    <span>Preço:  R$ {product.price}    </span>
                                     <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}}>Adicionar ao carrinho</Button>
                                 </div>
                             )}
@@ -578,6 +589,24 @@ class MainPage extends Component {
                             <Button variant="primary" onClick={this.closeRecOpenCart}>
                                 Abrir Carrinho
                             </Button>
+                        </Modal.Footer>
+                    </Modal> 
+
+
+                    <Modal show={this.state.showLoginForm} onHide={this.handleLoginClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Login</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {this.renderLoginForm()}
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            
+                            <Button variant="secondary" onClick={this.handleLoginClose}>
+                                Fechar
+                            </Button>
+                            
                         </Modal.Footer>
                     </Modal> 
 
