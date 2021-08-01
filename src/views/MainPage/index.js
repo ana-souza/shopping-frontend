@@ -8,7 +8,7 @@ import Login from '../Login/index';
 
 class MainPage extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -23,13 +23,14 @@ class MainPage extends Component {
             checkout: false,
             checkoutStatus: "",
             stores: [],
+            products: [],
             recommendations: [],
             selectedStore: '',
             entrada1: '',
             entrada2: '',
             checkedByName: true,
             checkedByDepartament: false,
-             
+
         }
     }
 
@@ -42,9 +43,9 @@ class MainPage extends Component {
         var requestOptions = {
             method: 'GET',
             redirect: 'follow',
-          };
-          
-          fetch(`http://localhost:8080/store`, requestOptions)
+        };
+
+        fetch(`http://localhost:8080/store`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 this.setState(
@@ -52,36 +53,36 @@ class MainPage extends Component {
                         stores: result
                     }
                 )
-                this.state.stores.forEach( store => this.getProductsFromStore(store));
-            }  ) 
-            .catch(error => console.log('error', error));  
-            
-        
+                this.state.stores.forEach(store => this.getProductsFromStore(store));
+            })
+            .catch(error => console.log('error', error));
+
+
     }
 
-    getProductsFromStore = async(store) => {
+    getProductsFromStore = async (store) => {
 
         console.log("entrou")
-        
+
         var requestOptions = {
             method: 'GET',
             redirect: 'follow',
-          };
-          
-          await fetch(`http://localhost:8080/product?storeUri=${encodeURIComponent(store.uri)}`, requestOptions)
+        };
+
+        await fetch(`http://localhost:8080/product?storeUri=${encodeURIComponent(store.uri)}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
-                this.pushProductsIntoStore(result, store);   
-                }
+                this.pushProductsIntoStore(result, store);
+            }
             )
             .catch(error => console.log('error', error));
-        }
+    }
 
-    
 
-    pushProductsIntoStore(products, store){
-        
+
+    pushProductsIntoStore(products, store) {
+
         if (products.error) products = [{}];
         let currentStores = this.state.stores;
         let index = currentStores.indexOf(store);
@@ -90,74 +91,61 @@ class MainPage extends Component {
         this.setState({
             stores: currentStores
         })
-            
+
     }
 
     renderLoginForm() {
 
         if (!this.state.loggedIn) {
-        return (
-            <div className="Login">
+            return (
+                <div className="Login">
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group size="lg" controlId="username">
-                        <Form.Label>Usuário</Form.Label>
-                        <Form.Control
-                            autoFocus
-                            type="username"
-                            value={this.state.username}
-                            onChange={(e) => this.setUsername(e.target.value)}
-                        />
+                            <Form.Label>Usuário</Form.Label>
+                            <Form.Control
+                                autoFocus
+                                type="username"
+                                value={this.state.username}
+                                onChange={(e) => this.setUsername(e.target.value)}
+                            />
                         </Form.Group>
                         <Form.Group size="lg" controlId="password">
-                        <Form.Label>Senha</Form.Label>
-                        <Form.Control
-                            type="password"
-                            value={this.state.password}
-                            onChange={(e) => this.setPassword(e.target.value)}
-                        />
+                            <Form.Label>Senha</Form.Label>
+                            <Form.Control
+                                type="password"
+                                value={this.state.password}
+                                onChange={(e) => this.setPassword(e.target.value)}
+                            />
                         </Form.Group>
                         <Button block size="lg" type="submit" disabled={!this.validateForm()}>
-                        Login
+                            Login
                         </Button>
                     </Form>
-            </div>
-        )
+                </div>
+            )
         }
     }
 
     renderCheckout() {
 
         if (!this.state.loggedIn) {
-        return (
-            <div className="Login">
+            return (
+                <div className="Login">
                     <h2>{this.state.checkoutStatus}</h2>
-                    
-            </div>
-        )
+
+                </div>
+            )
         }
     }
 
-    async renderProductsFromStore (store) {
-
-        console.log("store:")
-        console.log(store)
-        
+    renderProductsFromStore(store) {
         let stores = this.state.stores;
         let index = stores.indexOf(store);
+        this.setState({
+            products: stores[index].products
+        })
 
-        return (
-            stores[index].products.map((product) => 
-            <div key={product.uri}>
-                <strong>{product.label} </strong>
-                <span>Preço: ${product.price} </span>
-                <span>Quantidade em estoque: {product.quantity} </span>
-                <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >
-                    Adicionar ao carrinho
-                </Button>
-            </div>
-            )
-        )
-       
+
     }
 
     getRecommendations = async () => {
@@ -165,21 +153,21 @@ class MainPage extends Component {
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
-          };
+        };
 
-            console.log(this.state.recommendations);
-          await fetch(`http://localhost:8080/product/recommendation?consumerEmail=${this.state.username}`, requestOptions)
+        console.log(this.state.recommendations);
+        await fetch(`http://localhost:8080/product/recommendation?consumerEmail=${this.state.username}`, requestOptions)
             .then(response => response.json())
-            .then(result => 
+            .then(result =>
                 this.setState(
                     {
                         recommendations: result
                     }
                 ))
-            .catch(error => console.log('error', error)); 
-            
-            console.log("RECOMENDATIONS")
-            console.log(this.state.recommendations)
+            .catch(error => console.log('error', error));
+
+        console.log("RECOMENDATIONS")
+        console.log(this.state.recommendations)
     }
 
 
@@ -187,70 +175,72 @@ class MainPage extends Component {
         var storesByDepartment = this.state.stores;
         storesByDepartment.sort(function (a, b) {
             if (a.activity.label > b.activity.label) {
-              return 1;
+                return 1;
             }
             if (a.activity.label < b.activity.label) {
-              return -1;
+                return -1;
             }
             return 0;
-          });
+        });
 
-          this.setState({
-              stores: storesByDepartment,
-              checkedByName: false,
-              checkedByDepartament: true
-          }
-          )
+        this.setState({
+            stores: storesByDepartment,
+            checkedByName: false,
+            checkedByDepartament: true
+        }
+        )
     }
 
     sortByName = () => {
         var storesByName = this.state.stores;
         storesByName.sort(function (a, b) {
             if (a.label > b.label) {
-              return 1;
+                return 1;
             }
             if (a.label < b.label) {
-              return -1;
+                return -1;
             }
             return 0;
-          });
+        });
 
-          this.setState({
-              stores: storesByName,
-              checkedByName: true,
-              checkedByDepartament: false
-          }
-          )
+        this.setState({
+            stores: storesByName,
+            checkedByName: true,
+            checkedByDepartament: false
+        }
+        )
     }
     handleLoginClose = () => this.setState(
         {
-        showLoginForm: false
+            showLoginForm: false
         }
     );
 
     handleLoginShow = () => this.setState(
-       {showLoginForm: true}
+        { showLoginForm: true }
     );
 
     handleCartClose = () => this.setState(
-        {showCart: false,
-        checkoutStatus: ""
+        {
+            showCart: false,
+            checkoutStatus: ""
         }
     );
 
     handleCartShow = () => this.setState(
-       {showCart: true}
+        { showCart: true }
     );
 
     handleRecommendationsClose = () => this.setState(
-        {showRecommendations: false}
+        { showRecommendations: false }
     );
 
     handleRecommendationsShow = () => {
         this.getRecommendations();
         this.setState(
-       {showRecommendations: true}
-    );}
+            { showRecommendations: true }
+        );
+    }
 
     closeRecOpenCart = () => {
         this.setState(
@@ -308,40 +298,40 @@ class MainPage extends Component {
     }
 
     setUsername(username) {
-        this.setState({username: username})
+        this.setState({ username: username })
     }
-      
+
     setPassword(password) {
-    this.setState({password: password})
+        this.setState({ password: password })
     }
-    
+
 
     validateForm() {
-    return this.state.username.length > 0 && this.state.password.length > 0;
+        return this.state.username.length > 0 && this.state.password.length > 0;
     }
-    
+
     handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         console.log(this.state);
         var statusCode;
         var consumer;
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({"email":this.state.username,"password":this.state.password});
+        var raw = JSON.stringify({ "email": this.state.username, "password": this.state.password });
 
         var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
         };
 
         await fetch("http://localhost:8080/login", requestOptions)
-        .then(response => response.text())
-        .then(result => consumer = result)
-        .catch(error => console.log('error', error));
+            .then(response => response.text())
+            .then(result => consumer = result)
+            .catch(error => console.log('error', error));
 
         if (consumer[0] === 'h') {
             this.setState({
@@ -352,22 +342,22 @@ class MainPage extends Component {
             })
         }
 
-    
+
 
     }
-      
+
     addToCart = (product) => {
-        
+
         let products = this.state.productsOnCart;
         if (products.includes(product)) {
             let index = products.indexOf(product);
             products[index].qtyOnCart = products[index].qtyOnCart + 1;
-            
+
         }
         else {
             product.qtyOnCart = 1;
             products.push(product);
-        } 
+        }
         this.setState(
             {
                 productsOnCart: products
@@ -375,7 +365,7 @@ class MainPage extends Component {
         )
     }
 
-    buy =  () => {
+    buy = () => {
         this.setState({
             checkout: true
         })
@@ -386,26 +376,26 @@ class MainPage extends Component {
                 var myHeaders = new Headers();
                 myHeaders.append("Content-Type", "application/json");
 
-                if(this.state.username){
-                    var raw = JSON.stringify({"consumerEmail":this.state.username,"price":(product.price*product.qtyOnCart), "productLabel":product.label, "quantity":product.qtyOnCart});
+                if (this.state.username) {
+                    var raw = JSON.stringify({ "consumerEmail": this.state.username, "price": (product.price * product.qtyOnCart), "productLabel": product.label, "quantity": product.qtyOnCart });
 
                     var requestOptions = {
-                    method: 'POST',
-                    headers: myHeaders,
-                    body: raw,
-                    redirect: 'follow'
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: raw,
+                        redirect: 'follow'
                     };
-    
-                     fetch("http://localhost:8080/order", requestOptions)
-                    .then(response => response.json())
-                    .then(result => status = result.status)
-                    .catch(error => console.log('error', error));
-    
-                    if (status!==500){
+
+                    fetch("http://localhost:8080/order", requestOptions)
+                        .then(response => response.json())
+                        .then(result => status = result.status)
+                        .catch(error => console.log('error', error));
+
+                    if (status !== 500) {
                         this.setState({
-                            checkoutStatus : "Compra concluída com sucesso"
+                            checkoutStatus: "Compra concluída com sucesso"
                         })
-                    }    
+                    }
                 }
             }
         )
@@ -447,28 +437,28 @@ class MainPage extends Component {
             entrada2: 'Entrada/Saída 2: Siga em frente, e a loja será a primeira a sua direita'
         })
     }
-   
-    render () {
 
-        return(
+    render() {
+
+        return (
             <>
                 <div className="header">
-                
+
                     <Navbar bg="dark" variant="dark">
                         <Container>
                             <Navbar.Brand onClick={this.handleLoginShow}>{this.state.consumerUri ? "Olá novamente!" : "Login"}</Navbar.Brand>
                             <Navbar.Toggle />
                             <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text>
-                            
-                                <div to="/cart" className="cart" onClick={this.handleCartShow}>
-                                    <div >
-                                    <strong>Meu Carrinho</strong>
-                                    <span>{this.state.productsOnCart.length} itens</span>
+                                <Navbar.Text>
+
+                                    <div to="/cart" className="cart" onClick={this.handleCartShow}>
+                                        <div >
+                                            <strong>Meu Carrinho</strong>
+                                            <span>{this.state.productsOnCart.length} itens</span>
+                                        </div>
+                                        <MdShoppingBasket size={36} color="#fff" />
                                     </div>
-                                    <MdShoppingBasket size={36} color="#fff" />
-                                </div>
-                            </Navbar.Text>
+                                </Navbar.Text>
                             </Navbar.Collapse>
                         </Container>
                     </Navbar>
@@ -478,16 +468,16 @@ class MainPage extends Component {
                             <Modal.Title>Carrinho</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {this.state.productsOnCart.map((product, index) => 
+                            {this.state.productsOnCart.map((product, index) =>
                                 <div className="cartItem" key={index}>
                                     <strong>{product.label} </strong>
                                     <span>
-                                        <Button variant="outline-danger" size="sm" onClick={ () =>{this.decreaseQty(product)}}>-</Button> 
-                                        <span> &nbsp; {product.qtyOnCart} &nbsp; </span> 
-                                        <Button variant="outline-success" size="sm" onClick={ () =>{this.increaseQty(product)}}>+</Button>
+                                        <Button variant="outline-danger" size="sm" onClick={() => { this.decreaseQty(product) }}>-</Button>
+                                        <span> &nbsp; {product.qtyOnCart} &nbsp; </span>
+                                        <Button variant="outline-success" size="sm" onClick={() => { this.increaseQty(product) }}>+</Button>
                                     </span>
                                     <span>Preço:  ${product.price * product.qtyOnCart}</span>
-                                    <FaTrashAlt size={26} color="brown" onClick={ () =>{this.remove(product)}}/>
+                                    <FaTrashAlt size={26} color="brown" onClick={() => { this.remove(product) }} />
                                 </div>
                             )}
                         </Modal.Body>
@@ -501,47 +491,47 @@ class MainPage extends Component {
                             </Button>
 
                             <h2>{this.state.checkoutStatus}</h2>
-                            
+
                         </Modal.Footer>
-                        {this.state.checkout? this.renderLoginForm() : this.renderCheckout()}
+                        {this.state.checkout ? this.renderLoginForm() : this.renderCheckout()}
                     </Modal>
                 </div>
 
                 <div className="App">
-                    <h2 style={{margin: 30}}> Lojas </h2>
-                    <div style={{marginBottom: 20}}> 
+                    <h2 style={{ margin: 30 }}> Lojas </h2>
+                    <div style={{ marginBottom: 20 }}>
                         <ButtonGroup>
-                        <ToggleButton type="radio" variant='outline-primary' checked={this.state.checkedByName} onClick={this.sortByName}>Por nome</ToggleButton>
-                        <ToggleButton type="radio" variant='outline-primary' checked={this.state.checkedByDepartament} onClick={this.sortByDepartment}>Por atividade</ToggleButton>
+                            <ToggleButton type="radio" variant='outline-primary' checked={this.state.checkedByName} onClick={this.sortByName}>Por nome</ToggleButton>
+                            <ToggleButton type="radio" variant='outline-primary' checked={this.state.checkedByDepartament} onClick={this.sortByDepartment}>Por atividade</ToggleButton>
                         </ButtonGroup>
                     </div>
 
                     <Accordion className="container">
-                        {this.state.stores.map((store, index) => 
-                        
+                        {this.state.stores.map((store, index) =>
+
                             <Accordion.Item eventKey={index} key={store.uri}>
 
-                                <Accordion.Header>
+                                <Accordion.Header onClick={() => { this.renderProductsFromStore(store) }}>
                                     <span className="storeName">{store.label}</span> <span className="department">{store.activity.label}</span>
                                 </Accordion.Header>
                                 <Accordion.Body>
-                                    
-                                    {store.products?.map((product) => 
+
+                                    {this.state.products?.map((product) =>
                                         <div key={product.uri}>
                                             <strong>{product.label} </strong>
                                             <span>Preço: ${product.price} </span>
                                             <span>Quantidade em estoque: {product.quantity} </span>
-                                            <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}} >
+                                            <Button variant="success" size="sm" onClick={() => { this.addToCart(product) }} >
                                                 Adicionar ao carrinho
                                             </Button>
-                                        </div>)} 
-                                    
+                                        </div>)}
+
                                 </Accordion.Body>
                             </Accordion.Item>
                         )}
                     </Accordion>
-                    <div className="container" style={{marginBottom: 30}}>
-                        <h3 style={{margin: 30}}>Mapa do shopping</h3>
+                    <div className="container" style={{ marginBottom: 30 }}>
+                        <h3 style={{ margin: 30 }}>Mapa do shopping</h3>
                         <Row>
                             <Col>
                                 <img src="mapa.jpg" usemap="#image-map" />
@@ -555,16 +545,16 @@ class MainPage extends Component {
                                 </map>
                             </Col>
                             <Col>
-                                
+
                                 <p>Clique em uma loja para obter sua rota</p>
                                 <div name="store">
-                                <h4>{this.state.selectedStore}</h4>
-                                <p>{this.state.entrada1}</p>
-                                <p>{this.state.entrada2}</p>
+                                    <h4>{this.state.selectedStore}</h4>
+                                    <p>{this.state.entrada1}</p>
+                                    <p>{this.state.entrada2}</p>
                                 </div>
                             </Col>
                         </Row>
-                        <Button style={{marginTop: 30}} onClick={this.handleRecommendationsShow}>Recomendações de Produtos</Button>   
+                        <Button style={{ marginTop: 30 }} onClick={this.handleRecommendationsShow}>Recomendações de Produtos</Button>
                     </div>
 
                     <Modal show={this.state.showRecommendations} onHide={this.handleRecommendationsClose}>
@@ -572,17 +562,17 @@ class MainPage extends Component {
                             <Modal.Title>Recomendação de Produtos</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {this.state.recommendations.map((product, index) => 
+                            {this.state.recommendations.map((product, index) =>
                                 <div className="cartItem" key={index}>
                                     <strong>{product.label} </strong>
                                     <span>Preço:  R$ {product.price}    </span>
-                                    <Button variant="success" size="sm" onClick={ () =>{this.addToCart(product)}}>Adicionar ao carrinho</Button>
+                                    <Button variant="success" size="sm" onClick={() => { this.addToCart(product) }}>Adicionar ao carrinho</Button>
                                 </div>
                             )}
                         </Modal.Body>
 
                         <Modal.Footer>
-                            
+
                             <Button variant="secondary" onClick={this.handleRecommendationsClose}>
                                 Fechar
                             </Button>
@@ -590,7 +580,7 @@ class MainPage extends Component {
                                 Abrir Carrinho
                             </Button>
                         </Modal.Footer>
-                    </Modal> 
+                    </Modal>
 
 
                     <Modal show={this.state.showLoginForm} onHide={this.handleLoginClose}>
@@ -602,13 +592,13 @@ class MainPage extends Component {
                         </Modal.Body>
 
                         <Modal.Footer>
-                            
+
                             <Button variant="secondary" onClick={this.handleLoginClose}>
                                 Fechar
                             </Button>
-                            
+
                         </Modal.Footer>
-                    </Modal> 
+                    </Modal>
 
                 </div>
             </>
