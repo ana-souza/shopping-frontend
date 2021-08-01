@@ -53,7 +53,7 @@ class MainPage extends Component {
                         stores: result
                     }
                 )
-                this.state.stores.forEach(store => this.getProductsFromStore(store));
+                //this.state.stores.forEach(store => this.getProductsFromStore(store));
             })
             .catch(error => console.log('error', error));
 
@@ -139,13 +139,25 @@ class MainPage extends Component {
     }
 
     renderProductsFromStore(store) {
-        let stores = this.state.stores;
-        let index = stores.indexOf(store);
-        this.setState({
-            products: stores[index].products
-        })
 
 
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+            };
+    
+            fetch(`http://localhost:8080/product?storeUri=${encodeURIComponent(store.uri)}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    // console.log(result);
+                    // this.pushProductsIntoStore(result, store);
+                    this.setState({
+                        products: result
+                    })
+                }
+                )
+                .catch(error => console.log('error', error));
+ 
     }
 
     getRecommendations = async () => {
